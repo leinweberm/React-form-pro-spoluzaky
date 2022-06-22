@@ -22,8 +22,8 @@ export const Formular = styled.form`
       'vyber'
       'vlastnosti'
       'doprava'
-      'email'
-      'kalkulace';
+      'kalkulace'
+      'email';
    gap: 20px;
 `;
 export const FormSection = styled.div`
@@ -62,56 +62,4 @@ export const MainTitle = styled(SectionTitle)`
    font-size: 30px;
    align-self: center;
    justify-self: center;
-`;
-export const InputDiv = styled.div`
-   display: flex;
-   flex-direction: row;
-   justify-content: flex-start;
-   align-items: center;
-`;
-export const KontrolaButton = styled.div`
-   display: flex;
-   margin-top: 20px;
-   background-color: white;
-   border: 1px solid black;
-   cursor: pointer;
-   justify-content: center;
-   align-items: center;
-   ${props => {
-      if (props.checked === 1) {
-         return `
-            background-color: green;
-         `;
-      }
-      else if (props.checked === 2) {
-         return `
-            background-color: red;
-         `;
-      }
-   }}
-`;
-export const GiftAlert = styled.div`
-   display: none;
-   flex-direction: column;
-   margin-top: 20px;
-   width: 100%;
-   min-height: 40px;
-   align-items: center;
-   justify-content: center;
-   background-color: orange;
-   padding-top: 10px;
-   border: 2px solid white;
-   color: white;
-   ${props => {
-      if (props.checked === 1) {
-         return `
-            display: flex;
-         `;
-      }
-      else if (props.checked === 2) {
-         return `
-            display: none;
-         `;
-      }
-   }}
 `;

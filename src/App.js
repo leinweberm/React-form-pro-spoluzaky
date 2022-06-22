@@ -1,5 +1,5 @@
 import './App.css';
-import { FormSection, Formular, InputDiv, MainTitle, PageContainer, SectionTitle } from './AppStyles';
+import { FormSection, Formular, InputDiv, MainTitle, PageContainer, SectionTitle, KontrolaButton, GiftAlert } from './AppStyles';
 //
 import { useReducer, useState, useEffect } from 'react';
 // initialState pro useReducer
@@ -32,6 +32,8 @@ function setObjednavka(objednavka, action) {
 function App() {
   const [finalPrice, setFinalPrice] = useState(0);
   const [showFinalPrice, setShowFinalPrice] = useState(0);
+  const [checked, setChecked] = useState(0);
+  const [gift, setGift] = useState(0);
   //state objednavky spravujeme pomoci useReducer hooku
   const [objednavka, dispatch] = useReducer(setObjednavka, defaultObjednavka);
 
@@ -39,7 +41,9 @@ function App() {
   useEffect(() => {
     let newFinalPrice = getFinalPrice(objednavka);
     setShowFinalPrice(newFinalPrice);
-  }, [objednavka]);
+    let newGiftCheck = checkGift(showFinalPrice);
+    setGift(newGiftCheck);
+  }, [objednavka, showFinalPrice]);
 
   const getFinalPrice = (objednavka) => {
     let thisBasePrice = objednavka.typ * objednavka.hmotnost;
@@ -57,6 +61,26 @@ function App() {
     setFinalPrice(thisFinalPrice);
     return thisFinalPrice;
 
+  };
+
+  const checkPrice = (objednavka) => {
+    if (objednavka.rozpocet >= finalPrice) {
+      let checkOK = 1;
+      setChecked(checkOK);
+    } else {
+      let checkNOK = 2;
+      setChecked(checkNOK);
+    }
+  };
+
+  const checkGift = (showFinalPrice) => {
+    let checkGiftResult = 0;
+    if (showFinalPrice >= 2000) {
+      checkGiftResult = 1;
+    } else {
+      checkGiftResult = 2;
+    }
+    return checkGiftResult;
   }
 
   return (
@@ -169,10 +193,16 @@ function App() {
           }} />
           <label>Finální cena:</label>
           <input type="text" id="finalniCena" value={showFinalPrice} disabled />
-          <div style={{ marginTop: '20px', background: 'lightGray', border: '1px solid black', cursor: 'pointer', justifyContent: 'center', alignItems: 'center', display: 'flex', backgroundColor: 'white' }} onClick={() => {
+          <KontrolaButton checked={checked} onClick={() => {
+            checkPrice(objednavka);
+            console.log(checked);
           }}>
             Kontrola
-          </div>
+          </KontrolaButton>
+          <GiftAlert checked={gift}>
+            <b>DĚKUJEME ZA OBJEDNÁVKU V HODNOTĚ NAD 2000KČ!</b>
+            <p>K objednávce Vám přibalíme malý dárek.</p>
+          </GiftAlert>
         </FormSection>
         <FormSection name="email">
           <SectionTitle>Kontaktní údaje</SectionTitle>
